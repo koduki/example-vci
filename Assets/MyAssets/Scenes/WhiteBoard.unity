@@ -412,7 +412,7 @@ MonoBehaviour:
     contactInformation: 
     reference: 
     thumbnail: {fileID: 0}
-    version: 0.6
+    version: 0.7
     description: "\u30C1\u30E5\u30FC\u30C8\u30EA\u30A2\u30EB\u7528\u306E\u30DB\u30EF\u30A4\u30C8\u30DC\u30FC\u30C9VCI"
     exporterVersion: 0.32
     specVersion: 
@@ -602,7 +602,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398708828}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.7, y: 1, z: 0.1}

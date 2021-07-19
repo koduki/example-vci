@@ -132,6 +132,10 @@ GameObject:
   - component: {fileID: 586580457}
   - component: {fileID: 586580460}
   - component: {fileID: 586580459}
+  - component: {fileID: 586580463}
+  - component: {fileID: 586580462}
+  - component: {fileID: 586580461}
+  - component: {fileID: 586580458}
   m_Layer: 0
   m_Name: Lazer
   m_TagString: Untagged
@@ -146,13 +150,26 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586580456}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0.63}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0.638}
   m_LocalScale: {x: 0.005, y: 0.005, z: 1}
   m_Children: []
-  m_Father: {fileID: 1660563613}
+  m_Father: {fileID: 861353861}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &586580458
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586580456}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &586580459
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -200,6 +217,54 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586580456}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &586580461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586580456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed42f86ebdb20ba4597c4e753b47ee4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Grabbable: 1
+  Scalable: 0
+  UniformScaling: 0
+  Attractable: 1
+  GroupId: 1
+  NodeIndex: 0
+--- !u!138 &586580462
+FixedJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586580456}
+  m_ConnectedBody: {fileID: 1243301805}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
+--- !u!54 &586580463
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586580456}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &825683338
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +376,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1660563613}
+  - {fileID: 1243301804}
+  - {fileID: 586580457}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -349,11 +415,19 @@ MonoBehaviour:
     mimeType: 0
     targetEngine: 0
     textAsset: {fileID: 0}
-    source: "MAX_SLIDE_PAGE = 4\r\nUseCount = 0\r\n\r\nfunction onUse(use)\r\n   
-      UseCount = UseCount + 1\r\n    print(\"onUse : \"..use..UseCount)\r\n\r\n   
-      local index = UseCount % MAX_SLIDE_PAGE\r\n    local offset = Vector2.zero\r\n   
-      offset.y = 0\r\n    offset.x = (1.0 / MAX_SLIDE_PAGE) * index\r\n    vci.assets._ALL_SetMaterialTextureOffsetFromName(\"Slide\",
-      offset)\r\n    print(\"page: \"..(index + 1))\r\nend"
+    source: "local lazer = vci.assets.GetSubItem(\"Lazer\")\r\nlocal stick = vci.assets.GetSubItem(\"Stick\")\r\nlocal
+      lightSource = stick.GetLocalScale().z / 2\r\nfunction onGrab(use)\r\n     print(\"Grab
+      : \"..use)\r\n     print(\"SubItem\u306E \"..use..\" \u304CGrab\u72B6\u614B\u306B\u306A\u308A\u307E\u3057\u305F\u3002\")\r\n    
+      print(\"lightSource : \"..lightSource)\r\n     \r\n     -- local scale = Vector3.__new(0.005,
+      0.005, 10)\r\n     -- local pos = Vector3.__new(0, 1, lightSource + 10/2)\r\n    
+      -- lazer.SetLocalScale(scale)\r\n     -- lazer.SetLocalPosition(pos)\r\nend\r\n\r\nfunction
+      onUngrab(use)\r\n     print(\"Grab : \"..use)\r\n     print(\"SubItem\u306E
+      \"..use..\" \u304CGrab\u72B6\u614B\u304B\u3089\u96E2\u308C\u307E\u3057\u305F\u3002\")\r\n    
+      -- local scale = Vector3.__new(0.005, 0.005, 0)\r\n     -- local pos = Vector3.__new(0,
+      0, 0)\r\n     -- lazer.SetLocalScale(scale)\r\n     -- lazer.SetLocalPosition(pos)\r\nend\r\n\r\nfunction
+      onCollisionEnter(item, hit)\r\n     print(\"Collision Enter\")\r\n     print(string.format(\"%s
+      <= %s\", item, hit))\r\nend\r\n\r\nfunction onCollisionExit(item, hit)\r\n    
+      print(\"Collision Exit\")\r\n     print(string.format(\"%s <= %s\", item, hit))\r\nend"
 --- !u!1 &1002818429
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +531,10 @@ GameObject:
   - component: {fileID: 1243301804}
   - component: {fileID: 1243301807}
   - component: {fileID: 1243301806}
+  - component: {fileID: 1243301805}
+  - component: {fileID: 1243301810}
+  - component: {fileID: 1243301809}
+  - component: {fileID: 1243301808}
   m_Layer: 0
   m_Name: Stick
   m_TagString: Untagged
@@ -475,9 +553,25 @@ Transform:
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.25}
   m_Children: []
-  m_Father: {fileID: 1660563613}
+  m_Father: {fileID: 861353861}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1243301805
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243301803}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!23 &1243301806
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -525,64 +619,26 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1243301803}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1660563612
-GameObject:
+--- !u!65 &1243301808
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1660563613}
-  - component: {fileID: 1660563615}
-  - component: {fileID: 1660563614}
-  - component: {fileID: 1660563616}
-  m_Layer: 0
-  m_Name: Controller
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1660563613
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660563612}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1243301804}
-  - {fileID: 586580457}
-  m_Father: {fileID: 861353861}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &1660563614
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660563612}
+  m_GameObject: {fileID: 1243301803}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &1660563615
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1243301809
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660563612}
+  m_GameObject: {fileID: 1243301803}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed42f86ebdb20ba4597c4e753b47ee4c, type: 3}
@@ -592,18 +648,19 @@ MonoBehaviour:
   Scalable: 0
   UniformScaling: 0
   Attractable: 1
-  GroupId: 0
+  GroupId: 1
   NodeIndex: 0
---- !u!65 &1660563616
-BoxCollider:
+--- !u!138 &1243301810
+FixedJoint:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660563612}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.05, z: 1.2}
-  m_Center: {x: 0, y: 1, z: 0.5}
+  m_GameObject: {fileID: 1243301803}
+  m_ConnectedBody: {fileID: 586580463}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
