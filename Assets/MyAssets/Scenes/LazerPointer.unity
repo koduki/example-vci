@@ -121,6 +121,36 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &353152285
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 353152286}
+  m_Layer: 0
+  m_Name: DummyLazer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &353152286
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353152285}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1243301804}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &586580456
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +163,6 @@ GameObject:
   - component: {fileID: 586580460}
   - component: {fileID: 586580459}
   - component: {fileID: 586580463}
-  - component: {fileID: 586580462}
   - component: {fileID: 586580461}
   - component: {fileID: 586580458}
   m_Layer: 0
@@ -165,7 +194,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586580456}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -235,20 +264,6 @@ MonoBehaviour:
   Attractable: 1
   GroupId: 1
   NodeIndex: 0
---- !u!138 &586580462
-FixedJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 586580456}
-  m_ConnectedBody: {fileID: 1243301805}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!54 &586580463
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -257,7 +272,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586580456}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.0000001
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -399,7 +414,7 @@ MonoBehaviour:
     contactInformation: 
     reference: 
     thumbnail: {fileID: 0}
-    version: 0.1
+    version: 0.2
     description: "\u30C1\u30E5\u30FC\u30C8\u30EA\u30A2\u30EB\u7528\u306E\u30DB\u30EF\u30A4\u30C8\u30DC\u30FC\u30C9VCI"
     exporterVersion: 0.32
     specVersion: 
@@ -532,7 +547,6 @@ GameObject:
   - component: {fileID: 1243301807}
   - component: {fileID: 1243301806}
   - component: {fileID: 1243301805}
-  - component: {fileID: 1243301810}
   - component: {fileID: 1243301809}
   - component: {fileID: 1243301808}
   m_Layer: 0
@@ -552,7 +566,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.25}
-  m_Children: []
+  m_Children:
+  - {fileID: 353152286}
   m_Father: {fileID: 861353861}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -564,7 +579,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1243301803}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -650,17 +665,3 @@ MonoBehaviour:
   Attractable: 1
   GroupId: 1
   NodeIndex: 0
---- !u!138 &1243301810
-FixedJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1243301803}
-  m_ConnectedBody: {fileID: 586580463}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
