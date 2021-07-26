@@ -414,7 +414,7 @@ MonoBehaviour:
     contactInformation: 
     reference: 
     thumbnail: {fileID: 0}
-    version: 0.2
+    version: 0.3
     description: "\u30C1\u30E5\u30FC\u30C8\u30EA\u30A2\u30EB\u7528\u306E\u30DB\u30EF\u30A4\u30C8\u30DC\u30FC\u30C9VCI"
     exporterVersion: 0.32
     specVersion: 
@@ -430,19 +430,27 @@ MonoBehaviour:
     mimeType: 0
     targetEngine: 0
     textAsset: {fileID: 0}
-    source: "local lazer = vci.assets.GetSubItem(\"Lazer\")\r\nlocal stick = vci.assets.GetSubItem(\"Stick\")\r\nlocal
-      lightSource = stick.GetLocalScale().z / 2\r\nfunction onGrab(use)\r\n     print(\"Grab
-      : \"..use)\r\n     print(\"SubItem\u306E \"..use..\" \u304CGrab\u72B6\u614B\u306B\u306A\u308A\u307E\u3057\u305F\u3002\")\r\n    
-      print(\"lightSource : \"..lightSource)\r\n     \r\n     -- local scale = Vector3.__new(0.005,
-      0.005, 10)\r\n     -- local pos = Vector3.__new(0, 1, lightSource + 10/2)\r\n    
-      -- lazer.SetLocalScale(scale)\r\n     -- lazer.SetLocalPosition(pos)\r\nend\r\n\r\nfunction
-      onUngrab(use)\r\n     print(\"Grab : \"..use)\r\n     print(\"SubItem\u306E
-      \"..use..\" \u304CGrab\u72B6\u614B\u304B\u3089\u96E2\u308C\u307E\u3057\u305F\u3002\")\r\n    
-      -- local scale = Vector3.__new(0.005, 0.005, 0)\r\n     -- local pos = Vector3.__new(0,
-      0, 0)\r\n     -- lazer.SetLocalScale(scale)\r\n     -- lazer.SetLocalPosition(pos)\r\nend\r\n\r\nfunction
-      onCollisionEnter(item, hit)\r\n     print(\"Collision Enter\")\r\n     print(string.format(\"%s
-      <= %s\", item, hit))\r\nend\r\n\r\nfunction onCollisionExit(item, hit)\r\n    
-      print(\"Collision Exit\")\r\n     print(string.format(\"%s <= %s\", item, hit))\r\nend"
+    source: "print(\"lazer-pointer: ver01\")\r\n\r\nlocal Lazer = {\r\n     obj =
+      vci.assets.GetSubItem(\"Lazer\"),\r\n     length = 5,\r\n     lightSource =
+      0.52 + 2 * 5\r\n}\r\nlocal Stick = vci.assets.GetSubItem(\"Stick\")\r\nlocal
+      DummyLazer = vci.assets.GetSubItem(\"DummyLazer\")\r\n\r\nfunction SetLazerLength(len)\r\n    
+      Lazer.length = len\r\n     Lazer.lightSource = 0.52 + 2 * len\r\n     print(string.format(\"Lazer.length:
+      %d, Lazer.lightSource: %d\", Lazer.length, Lazer.lightSource))\r\nend\r\n\r\nfunction
+      TurnOnLazer()\r\n     local scale = Vector3.__new(0.005, 0.005, Lazer.length)\r\n    
+      local pos = Vector3.__new(0, 0, Lazer.lightSource)\r\n     DummyLazer.SetLocalPosition(pos)\r\n    
+      DummyLazer.SetLocalScale(scale)\r\nend\r\n\r\nfunction TurnOffLazer()\r\n    
+      local scale = Vector3.__new(0.005, 0.005, 0)\r\n     local pos = Vector3.__new(Stick.getLocalPosition().x,
+      Stick.getLocalPosition().y, 0)\r\n     DummyLazer.SetLocalPosition(pos)\r\n    
+      DummyLazer.SetLocalScale(scale)\r\nend\r\n\r\nfunction onGrab(use)\r\n    
+      TurnOnLazer()\r\nend\r\n\r\nfunction onUngrab(use)\r\n     TurnOffLazer()\r\nend\r\n\r\nfunction
+      updateAll()\r\n     Lazer.obj.SetPosition(DummyLazer.GetPosition())\r\n    
+      Lazer.obj.SetRotation(DummyLazer.GetRotation())\r\n     Lazer.obj.SetLocalScale(DummyLazer.GetLocalScale())\r\nend\r\n\r\nfunction
+      onTriggerEnter(item, hit)\r\n     print(string.format(\"onTriggerEnter: item=%s,
+      item=%s\", item, hit))\r\n     if (item == \"Lazer\") then  \r\n          if
+      (hit == \"Board\") then\r\n               print(\"Nice Board\")\r\n         
+      end\r\n     end\r\nend\r\n\r\nfunction onTriggerExit(item, hit)\r\n     if
+      (item == \"Lazer\") then  \r\n\r\n     end\r\nend\r\n\r\nfunction onUse()\r\n    
+      vci.message.EmitWithId(\"sendFromLazerPointer121\", { event = \"next\" })\r\nend "
 --- !u!1 &1002818429
 GameObject:
   m_ObjectHideFlags: 0

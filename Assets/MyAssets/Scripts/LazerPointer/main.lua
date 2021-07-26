@@ -1,50 +1,62 @@
-local lazer = vci.assets.GetSubItem("Lazer")
-local stick = vci.assets.GetSubItem("Stick")
-local dummyLazer = vci.assets.GetSubItem("DummyLazer")
-local lightSource = stick.GetLocalScale().z 
+print("lazer-pointer: ver01")
 
-print("ver 0.3")
+local Lazer = {
+     obj = vci.assets.GetSubItem("Lazer"),
+     length = 5,
+     lightSource = 0.52 + 2 * 5
+}
+local Stick = vci.assets.GetSubItem("Stick")
+local DummyLazer = vci.assets.GetSubItem("DummyLazer")
+
+function SetLazerLength(len)
+     Lazer.length = len
+     Lazer.lightSource = 0.52 + 2 * len
+     print(string.format("Lazer.length: %d, Lazer.lightSource: %d", Lazer.length, Lazer.lightSource))
+end
+
+function TurnOnLazer()
+     local scale = Vector3.__new(0.005, 0.005, Lazer.length)
+     local pos = Vector3.__new(0, 0, Lazer.lightSource)
+     DummyLazer.SetLocalPosition(pos)
+     DummyLazer.SetLocalScale(scale)
+end
+
+function TurnOffLazer()
+     local scale = Vector3.__new(0.005, 0.005, 0)
+     local pos = Vector3.__new(Stick.getLocalPosition().x, Stick.getLocalPosition().y, 0)
+     DummyLazer.SetLocalPosition(pos)
+     DummyLazer.SetLocalScale(scale)
+end
 
 function onGrab(use)
-     -- print("Grab : "..use)
-     -- print("SubItemの "..use.." がGrab状態になりました。")
-     print("lightSource : "..lightSource)
-     print("stick-z : "..stick.GetLocalScale().z)
-     print("lazer-z1 : "..dummyLazer.GetLocalPosition().z)
-
-     local scale = Vector3.__new(0.005, 0.005, 10)
-     local pos = Vector3.__new(0, 0, 0.52 + 2 * scale.z)
-     dummyLazer.SetLocalPosition(pos)
-     dummyLazer.SetLocalScale(scale)
-     print("lazer-z2 : "..dummyLazer.GetLocalPosition().z)
-
+     TurnOnLazer()
 end
 
 function onUngrab(use)
-     -- print("Grab : "..use)
-     -- print("SubItemの "..use.." がGrab状態から離れました。")
-
-     local scale = Vector3.__new(0.005, 0.005, 0)
-     local pos = Vector3.__new(stick.getLocalPosition().x, stick.getLocalPosition().y, 0)
-     dummyLazer.SetLocalPosition(pos)
-     dummyLazer.SetLocalScale(scale)
+     TurnOffLazer()
 end
 
----毎フレーム位置同期を行う
 function updateAll()
-     lazer.SetPosition(dummyLazer.GetPosition())
-     lazer.SetRotation(dummyLazer.GetRotation())
-     lazer.SetLocalScale(dummyLazer.GetLocalScale())
-
-     -- child.SetLocalScale(ITEMS.PARENT.GetLocalScale()) 
+     Lazer.obj.SetPosition(DummyLazer.GetPosition())
+     Lazer.obj.SetRotation(DummyLazer.GetRotation())
+     Lazer.obj.SetLocalScale(DummyLazer.GetLocalScale())
 end
 
 function onTriggerEnter(item, hit)
-     print("Trigger Enter")
-     print(string.format("%s <= %s", item, hit))
+     print(string.format("onTriggerEnter: item=%s, item=%s", item, hit))
+     if (item == "Lazer") then  
+          if (hit == "Board") then
+               print("Nice Board")
+          end
+     end
 end
 
 function onTriggerExit(item, hit)
-     print("Trigger Exit")
-     print(string.format("%s <= %s", item, hit))
+     if (item == "Lazer") then  
+
+     end
 end
+
+function onUse()
+     vci.message.EmitWithId("sendFromLazerPointer121", { event = "next" })
+end 

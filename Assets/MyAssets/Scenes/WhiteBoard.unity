@@ -412,7 +412,7 @@ MonoBehaviour:
     contactInformation: 
     reference: 
     thumbnail: {fileID: 0}
-    version: 0.7
+    version: 0.1
     description: "\u30C1\u30E5\u30FC\u30C8\u30EA\u30A2\u30EB\u7528\u306E\u30DB\u30EF\u30A4\u30C8\u30DC\u30FC\u30C9VCI"
     exporterVersion: 0.32
     specVersion: 
@@ -428,11 +428,15 @@ MonoBehaviour:
     mimeType: 0
     targetEngine: 0
     textAsset: {fileID: 0}
-    source: "MAX_SLIDE_PAGE = 4\r\nUseCount = 0\r\n\r\nfunction onUse(use)\r\n   
-      UseCount = UseCount + 1\r\n    print(\"onUse : \"..use..UseCount)\r\n\r\n   
-      local index = UseCount % MAX_SLIDE_PAGE\r\n    local offset = Vector2.zero\r\n   
-      offset.y = 0\r\n    offset.x = (1.0 / MAX_SLIDE_PAGE) * index\r\n    vci.assets._ALL_SetMaterialTextureOffsetFromName(\"Slide\",
-      offset)\r\n    print(\"page: \"..(index + 1))\r\nend"
+    source: "print(\"slide: ver01\")\r\n\r\nlocal MAX_SLIDE_PAGE = 4\r\nlocal UseCount
+      = 0\r\n\r\nfunction NextSlide()\r\n    UseCount = UseCount + 1\r\n\r\n    local
+      index = UseCount % MAX_SLIDE_PAGE\r\n    local offset = Vector2.zero\r\n   
+      offset.y = 0\r\n    offset.x = (1.0 / MAX_SLIDE_PAGE) * index\r\n    print(string.format(\"page:
+      %d, onUse: %d, offset.x: %d, offset.y: %d\", index + 1, UseCount, offset.x,
+      offset.y))\r\n    vci.assets._ALL_SetMaterialTextureOffsetFromName(\"Slide\",
+      offset)\r\nend\r\n\r\nfunction OnLazerPointerMessage(sender, name, message)\r\n   
+      print(message.event)\r\n    NextSlide()\r\nend\r\nvci.message.On(\"sendFromLazerPointer121\",
+      OnLazerPointerMessage)\r\n\r\nfunction OnUse(use)\r\n    nextSlide()\r\nend\r\n"
 --- !u!1 &1002818429
 GameObject:
   m_ObjectHideFlags: 0
